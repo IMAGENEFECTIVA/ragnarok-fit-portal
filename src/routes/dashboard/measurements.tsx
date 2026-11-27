@@ -82,7 +82,7 @@ function Measurements() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-background/40 text-left text-muted-foreground">
-              <tr><th className="p-3">Fecha</th><th className="p-3">Peso</th><th className="p-3">IMC</th><th className="p-3">%Grasa</th><th className="p-3">Músc.</th><th className="p-3">Magra</th><th className="p-3">TMB</th><th className="p-3">Kcal</th><th className="p-3">Visceral</th><th className="p-3">Agua</th><th className="p-3">Cintura</th><th className="p-3">Cuello</th><th className="p-3">Cadera</th><th className="p-3"></th></tr>
+              <tr><th className="p-3">Fecha</th><th className="p-3">Peso</th><th className="p-3">IMC</th><th className="p-3">%Grasa</th><th className="p-3">Músc.*</th><th className="p-3">Magra</th><th className="p-3">TMB</th><th className="p-3">Kcal</th><th className="p-3">Visceral*</th><th className="p-3">Agua*</th><th className="p-3">Cintura</th><th className="p-3">Cuello</th><th className="p-3">Cadera</th><th className="p-3"></th></tr>
             </thead>
             <tbody>
               {rows.map((m) => (
@@ -101,6 +101,7 @@ function Measurements() {
             </tbody>
           </table>
         </div>
+        <p className="p-3 text-xs text-muted-foreground">* Estimaciones a partir de las medidas, no mediciones directas.</p>
       </div>
     </div>
   );

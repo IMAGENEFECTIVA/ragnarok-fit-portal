@@ -100,7 +100,7 @@ function ClientDetail() {
             <Stat label="Peso" value={`${latest.weight_kg} kg`} />
             <Stat label="IMC" value={latest.imc ?? "—"} />
             <Stat label="% Grasa" value={latest.body_fat_pct ? `${latest.body_fat_pct}%` : "—"} />
-            <Stat label="Masa muscular" value={latest.muscle_mass_kg ? `${latest.muscle_mass_kg} kg` : "—"} />
+            <Stat label="Masa muscular*" value={latest.muscle_mass_kg ? `${latest.muscle_mass_kg} kg` : "—"} />
             <Stat label="TMB" value={latest.bmr ? `${latest.bmr} kcal` : "—"} />
           </div>
         </section>
@@ -131,7 +131,7 @@ function ClientDetail() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-background/40 text-left text-muted-foreground">
-              <tr><th className="p-3">Fecha</th><th className="p-3">Peso</th><th className="p-3">IMC</th><th className="p-3">%Grasa</th><th className="p-3">Músc.</th><th className="p-3">Magra</th><th className="p-3">TMB</th><th className="p-3">Visceral</th><th className="p-3">Agua</th><th className="p-3">Cintura</th><th className="p-3">Cuello</th><th className="p-3">Cadera</th><th className="p-3">Act.</th></tr>
+              <tr><th className="p-3">Fecha</th><th className="p-3">Peso</th><th className="p-3">IMC</th><th className="p-3">%Grasa</th><th className="p-3">Músc.*</th><th className="p-3">Magra</th><th className="p-3">TMB</th><th className="p-3">Visceral*</th><th className="p-3">Agua*</th><th className="p-3">Cintura</th><th className="p-3">Cuello</th><th className="p-3">Cadera</th><th className="p-3">Act.</th></tr>
             </thead>
             <tbody>
               {measurements.slice().reverse().map((m) => (
@@ -150,6 +150,7 @@ function ClientDetail() {
             </tbody>
           </table>
         </div>
+        <p className="p-3 text-xs text-muted-foreground">* Estimaciones a partir de las medidas, no mediciones directas.</p>
       </section>
 
       {latest && (

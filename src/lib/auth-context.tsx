@@ -12,6 +12,20 @@ interface AuthCtx {
   signOut: () => Promise<void>;
 }
 
+// Un usuario puede tener los roles "client" y "trainer" a la vez
+// (todos parten como cliente). Si es preparador, entra como preparador.
+async function fetchRole(userId: string): Promise<Role> {
+  const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+  if (error) {
+    console.error("No se pudo leer el rol", error);
+    return null;
+  }
+  const roles = (data ?? []).map((r) => r.role);
+  if (roles.includes("trainer")) return "trainer";
+  if (roles.includes("client")) return "client";
+  return null;
+}
+
 const Ctx = createContext<AuthCtx>({ user: null, session: null, role: null, loading: true, signOut: async () => {} });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -25,9 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (s?.user) {
         // Defer role fetch to avoid blocking auth callback
         setTimeout(() => {
-          supabase.from("user_roles").select("role").eq("user_id", s.user.id).maybeSingle().then(({ data }) => {
-            setRole((data?.role as Role) ?? null);
-          });
+          fetchRole(s.user.id).then(setRole);
         }, 0);
       } else {
         setRole(null);
@@ -37,8 +49,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       if (data.session?.user) {
-        supabase.from("user_roles").select("role").eq("user_id", data.session.user.id).maybeSingle().then(({ data: r }) => {
-          setRole((r?.role as Role) ?? null);
+        fetchRole(data.session.user.id).then((r) => {
+          setRole(r);
           setLoading(false);
         });
       } else {

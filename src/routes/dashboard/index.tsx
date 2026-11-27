@@ -100,12 +100,13 @@ function DashHome() {
         <Stat label="Calorías diarias" value={latest?.daily_calories ? `${Math.round(latest.daily_calories)} kcal` : "—"} />
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Masa muscular" value={latest?.muscle_mass_kg ? `${latest.muscle_mass_kg} kg` : "—"} />
+        <Stat label="Masa muscular*" value={latest?.muscle_mass_kg ? `${latest.muscle_mass_kg} kg` : "—"} />
         <Stat label="Masa magra" value={latest?.lean_mass_kg ? `${latest.lean_mass_kg} kg` : "—"} />
-        <Stat label="Grasa visceral" value={latest?.visceral_fat ?? "—"} />
+        <Stat label="Grasa visceral* (índice)" value={latest?.visceral_fat ?? "—"} />
         <Stat label="Cambio peso (vs anterior)" value={delta !== null ? `${delta} kg` : "—"}
           accent={delta !== null && Number(delta) <= 0 ? "vitality" : undefined} />
       </div>
+      <p className="text-xs text-muted-foreground">* Masa muscular, grasa visceral y agua son estimaciones a partir de tus medidas, no mediciones directas.</p>
 
       {auto.length > 0 && (
         <div className="surface-card p-6">

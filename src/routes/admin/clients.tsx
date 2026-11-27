@@ -15,15 +15,9 @@ function Clients() {
 
   const load = async () => {
     if (!user) return;
-    const { data: links } = await supabase
-      .from("trainer_clients")
-      .select("client_id, created_at, accepted_at")
-      .eq("trainer_id", user.id);
-    const ids = (links ?? []).map((l: any) => l.client_id);
-    if (ids.length === 0) return setRows([]);
-    const { data: profiles } = await supabase.from("profiles").select("*").in("id", ids);
-    const byId = new Map((profiles ?? []).map((p: any) => [p.id, p]));
-    setRows((links ?? []).map((l: any) => ({ ...byId.get(l.client_id), accepted_at: l.accepted_at })));
+    const { data, error } = await supabase.rpc("my_trainer_clients");
+    if (error) return toast.error("No se pudo cargar la lista de clientes.");
+    setRows((data ?? []).map((r) => ({ id: r.client_id, full_name: r.full_name, email: r.email, accepted_at: r.accepted_at })));
   };
   useEffect(() => { load(); }, [user]);
 
@@ -32,20 +26,13 @@ function Clients() {
     if (!user) return;
     setAssigning(true);
     const email = emailToAssign.trim().toLowerCase();
-    const { data: prof } = await supabase.from("profiles").select("id, full_name").eq("email", email).maybeSingle();
-    if (!prof) {
-      setAssigning(false);
-      return toast.error("No existe un usuario con ese correo. Pídele registrarse primero.");
-    }
-    const { error } = await supabase
-      .from("trainer_clients")
-      .insert({ trainer_id: user.id, client_id: prof.id, requested_by: user.id });
+    const { data: name, error } = await supabase.rpc("invite_client_by_email", { _email: email });
     setAssigning(false);
     if (error) {
       if (error.code === "23505") return toast.error("Ya enviaste una invitación a este cliente.");
       return toast.error(error.message);
     }
-    toast.success(`Invitación enviada a ${prof.full_name}. Debe aceptarla desde su panel.`);
+    toast.success(`Invitación enviada a ${name}. Debe aceptarla desde su panel.`);
     setEmailToAssign("");
     load();
   };

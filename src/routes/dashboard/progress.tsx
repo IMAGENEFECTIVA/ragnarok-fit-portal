@@ -24,9 +24,9 @@ function Progress() {
     Peso: Number(m.weight_kg),
     IMC: m.imc ? Number(m.imc) : null,
     Grasa: m.body_fat_pct ? Number(m.body_fat_pct) : null,
-    Músculo: m.muscle_mass_kg ? Number(m.muscle_mass_kg) : null,
+    "Músculo*": m.muscle_mass_kg ? Number(m.muscle_mass_kg) : null,
     Magra: m.lean_mass_kg ? Number(m.lean_mass_kg) : null,
-    Visceral: m.visceral_fat ? Number(m.visceral_fat) : null,
+    "Visceral*": m.visceral_fat ? Number(m.visceral_fat) : null,
   }));
 
   // Timeline merging measurements + recs sorted desc
@@ -51,11 +51,12 @@ function Progress() {
               <Line type="monotone" dataKey="Peso" stroke="#D4A017" strokeWidth={2} />
               <Line type="monotone" dataKey="IMC" stroke="#22c55e" strokeWidth={2} />
               <Line type="monotone" dataKey="Grasa" stroke="#C67A45" strokeWidth={2} />
-              <Line type="monotone" dataKey="Músculo" stroke="#3b82f6" strokeWidth={2} />
+              <Line type="monotone" dataKey="Músculo*" stroke="#3b82f6" strokeWidth={2} />
               <Line type="monotone" dataKey="Magra" stroke="#a855f7" strokeWidth={2} />
-              <Line type="monotone" dataKey="Visceral" stroke="#ef4444" strokeWidth={2} />
+              <Line type="monotone" dataKey="Visceral*" stroke="#ef4444" strokeWidth={2} />
             </LineChart></ResponsiveContainer>
           </div>
+          <p className="mt-2 text-xs text-muted-foreground">* Estimaciones a partir de las medidas, no mediciones directas.</p>
         </div>
       ) : (
         <p className="surface-card p-6 text-muted-foreground">Se requieren más mediciones para visualizar la evolución.</p>

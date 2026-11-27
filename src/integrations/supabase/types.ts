@@ -230,9 +230,33 @@ export type Database = {
         }
         Returns: boolean
       }
+      invite_client_by_email: {
+        Args: { _email: string }
+        Returns: string
+      }
       is_trainer_of: {
         Args: { _client: string; _trainer: string }
         Returns: boolean
+      }
+      my_trainer_clients: {
+        Args: never
+        Returns: {
+          accepted_at: string | null
+          client_id: string
+          created_at: string
+          email: string
+          full_name: string
+        }[]
+      }
+      navy_body_fat: {
+        Args: {
+          _height_cm: number
+          _hip_cm: number
+          _neck_cm: number
+          _sex: string
+          _waist_cm: number
+        }
+        Returns: number
       }
     }
     Enums: {
